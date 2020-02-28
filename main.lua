@@ -2,23 +2,8 @@ assert(bit, "bit lib is required")
 local ffi = require("ffi")
 local TEST = false
 local gpxTestFile = "Track.gpx"
-local bGPXFileName = "toto.bGPX"
+local bGPXFileName = "Track.bGPX"
 local USE_DOUBLE_PRECISION = false
-
-function bit.LSB(value)
-	return bit.band(-value, value)
-end
-
-function bit.getPos(value)
-	return math.log(value, 2) + 1
-end
-
-function bit.select(value, mask)
-	if mask == 0 then return 0 end
-	local maskOffset = bit.getPos(bit.LSB(mask)) - 1
-
-	return bit.rshift(bit.band(mask, value), maskOffset)
-end
 
 local function writeInt32(file, integer)
 	local bytes = ffi.string(ffi.new("int[1]", integer), 4)
@@ -91,7 +76,7 @@ end
 		... [float/double] latitude
 		... [float/double] longitude
 ]]
-local function decompressBGPX(fileName)
+function decompressBGPX(fileName)
 	local fileHandle = assert(io.open(fileName, "rb"), "Cannot read file " .. fileName)
 
 	local data = {
@@ -172,7 +157,7 @@ local function parseMetaData(strData)
 	return intTime, minlat, maxlat, minlon, maxlon
 end
 
-local function parseGPXTrack(fileName)
+function parseGPXTrack(fileName)
 	local fileHandle = assert(io.open(fileName, "r"), "Cannot read file " .. fileName)
 	local fileData = fileHandle:read("*all")
 	local metadata = string.match(fileData, "<metadata>(.-)</metadata>")
