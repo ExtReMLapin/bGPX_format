@@ -48,10 +48,9 @@ The storage is very simple
    ```Lua
   parseGPXTrack(data, "file.bGPX")
   ```
-  
-  
-  
-  #Possible improvements
+ ## `decompressBGPX(fileName)`
+ Returns the intermediate representation of the bGPX file,  
+ # Possible improvements
   
 * Getting rid of the waypoints count as there is no data after the waypoints/coords list.
 * Generating the min/max len/lon on the fly (would save a very little memory to eat more CPU time as it would require to look thru all the list)
